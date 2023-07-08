@@ -1,5 +1,5 @@
 {
-    "name": "claimcodes",
+    "name": "discreetly-claimcodes",
     "version": "1.0.0",
     "description": "generate and claim codes",
     "main": "index.js",
@@ -10,6 +10,6 @@
     "author": "AtHeartEngineer",
     "license": "MIT",
     "devDependencies": {
-        "typescript": "^5.1.3"
+        "typescript": "^5.1.6"
     }
 }
