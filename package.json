@@ -1,6 +1,6 @@
 {
     "name": "discreetly-claimcodes",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "generate and claim codes",
     "main": "./dist/index.js",
     "scripts": {

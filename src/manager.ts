@@ -82,27 +82,27 @@ export default class ClaimCodeManager {
     return { status, message, claimCodes };
   }
 
-  public generateClaimCodeSet(count: number, groupID: number | string = 0, name: string = '') {
-    groupID = groupID.toString();
-    if (this.claimCodeSets[groupID]) {
-      this.claimCodeSets[groupID].claimCodes = ClaimCodeManager.generateClaimCodes(
+  public generateClaimCodeSet(count: number, groupID: bigint = BigInt(0), name: string = '') {
+    const groupIDstr = groupID.toString();
+    if (this.claimCodeSets[groupIDstr]) {
+      this.claimCodeSets[groupIDstr].claimCodes = ClaimCodeManager.generateClaimCodes(
         count,
-        this.claimCodeSets[groupID].claimCodes
+        this.claimCodeSets[groupIDstr].claimCodes
       );
     } else {
-      this.claimCodeSets[groupID] = {
+      this.claimCodeSets[groupIDstr] = {
         claimCodes: ClaimCodeManager.generateClaimCodes(count),
         groupID: BigInt(groupID),
         generationTime: Date.now(),
         name: name
       };
     }
-    this.claimCodeSets[groupID].groupID = BigInt(groupID);
-    this.claimCodeSets[groupID].generationTime = Date.now();
+    this.claimCodeSets[groupIDstr].groupID = BigInt(groupID);
+    this.claimCodeSets[groupIDstr].generationTime = Date.now();
     if (name) {
-      this.claimCodeSets[groupID].name = name;
+      this.claimCodeSets[groupIDstr].name = name;
     }
-    return this.claimCodeSets[groupID];
+    return this.claimCodeSets[groupIDstr];
   }
 
   public claimCode(code: string): ClaimCodeStatus {
