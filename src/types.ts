@@ -5,7 +5,7 @@ export type ClaimCodeT = {
 
 export type ClaimCodeSetT = {
   claimCodes: ClaimCodeT[];
-  groupID: number;
+  groupID: bigint;
   generationTime?: number;
   name?: string;
 };

@@ -11,13 +11,13 @@ export interface ClaimCodeStatus {
   status: ClaimCodeStatusEnum;
   message: string;
   claimCodes: ClaimCodeT[];
-  groupID?: number;
+  groupID?: BigInt;
 }
 
 const emptyClaimCodeSet: ClaimCodeSetsT = {
   '0': {
     claimCodes: [],
-    groupID: 0,
+    groupID: BigInt(0),
     generationTime: Date.now(),
     name: 'UNASSIGNED'
   }
@@ -92,12 +92,12 @@ export default class ClaimCodeManager {
     } else {
       this.claimCodeSets[groupID] = {
         claimCodes: ClaimCodeManager.generateClaimCodes(count),
-        groupID: Number(groupID),
+        groupID: BigInt(groupID),
         generationTime: Date.now(),
         name: name
       };
     }
-    this.claimCodeSets[groupID].groupID = Number(groupID);
+    this.claimCodeSets[groupID].groupID = BigInt(groupID);
     this.claimCodeSets[groupID].generationTime = Date.now();
     if (name) {
       this.claimCodeSets[groupID].name = name;
@@ -112,10 +112,10 @@ export default class ClaimCodeManager {
         this.claimCodeSets[claimCodeSet].claimCodes
       );
       if (result.status === ClaimCodeStatusEnum.CLAIMED) {
-        result.groupID = Number(claimCodeSet);
+        result.groupID = BigInt(claimCodeSet);
         return result;
       } else if (result.status === ClaimCodeStatusEnum.ALREADY_USED) {
-        result.groupID = Number(claimCodeSet);
+        result.groupID = BigInt(claimCodeSet);
         return result;
       } else {
         continue;
@@ -155,12 +155,12 @@ export default class ClaimCodeManager {
     return { usedCount, unusedCount, totalCount };
   }
 
-  public getGroupIdFromName(name: string): number {
+  public getGroupIdFromName(name: string): BigInt | undefined {
     for (const claimCodeSet of Object.values(this.claimCodeSets)) {
       if (claimCodeSet.name === name) {
         return claimCodeSet.groupID;
       }
     }
-    return -1;
+    return undefined;
   }
 }
