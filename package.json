@@ -1,8 +1,7 @@
 {
     "name": "discreetly-claimcodes",
-    "version": "1.0.4",
+    "version": "1.0.7",
     "description": "generate and claim codes",
-    "main": "./dist/index.js",
     "scripts": {
         "build": "rollup --config rollup.config.mjs",
         "test": "echo \"Error: no test specified\" && exit 1"
