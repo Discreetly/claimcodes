@@ -1,5 +1,5 @@
-import bip39ish, { bip39 } from './bip39ish';
-import { ClaimCodeT, ClaimCodeSetT, ClaimCodeSetsT } from './types';
+import { ClaimCodeT, ClaimCodeSetsT } from './types';
+import generateClaimCodes from './codeGeneration';
 
 export enum ClaimCodeStatusEnum {
   CLAIMED = 'CLAIMED',
@@ -30,38 +30,6 @@ export default class ClaimCodeManager {
     this.claimCodeSets = claimCodeSetInput;
   }
 
-  private static generateRandomClaimCode(length: number = 2) {
-    if (length < 1) throw new Error('length must be greater than 0');
-    if (length > 24) throw new Error('length must be less than 24');
-
-    let code: string[] = [];
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * bip39ish.length);
-
-      code.push(bip39ish[randomIndex]);
-    }
-    return code.join('-');
-  }
-
-  private static generateClaimCodes(count: number, claimCodes: ClaimCodeT[] = []): ClaimCodeT[] {
-    let codes: string[] = [];
-    for (let i = 0; i < count; i++) {
-      let pass = false;
-      while (pass == false) {
-        let code: string = this.generateRandomClaimCode();
-        if (codes.includes(code)) {
-          continue;
-        }
-        pass = true;
-      }
-      claimCodes.push({
-        code: this.generateRandomClaimCode(),
-        used: false
-      });
-    }
-    return claimCodes;
-  }
-
   private static markClaimCodeAsUsed(code: string, claimCodes: ClaimCodeT[]): ClaimCodeStatus {
     let message = 'Successfully claimed code';
     let status = ClaimCodeStatusEnum.NOT_FOUND;
@@ -85,13 +53,13 @@ export default class ClaimCodeManager {
   public generateClaimCodeSet(count: number, groupID: bigint = BigInt(0), name: string = '') {
     const groupIDstr = groupID.toString();
     if (this.claimCodeSets[groupIDstr]) {
-      this.claimCodeSets[groupIDstr].claimCodes = ClaimCodeManager.generateClaimCodes(
+      this.claimCodeSets[groupIDstr].claimCodes = generateClaimCodes(
         count,
         this.claimCodeSets[groupIDstr].claimCodes
       );
     } else {
       this.claimCodeSets[groupIDstr] = {
-        claimCodes: ClaimCodeManager.generateClaimCodes(count),
+        claimCodes: generateClaimCodes(count),
         groupID: BigInt(groupID),
         generationTime: Date.now(),
         name: name
