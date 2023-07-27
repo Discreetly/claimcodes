@@ -1,7 +1,7 @@
 import bip39ish, { bip39 } from './bip39ish';
 import { ClaimCodeT } from './types';
 
-export function generateRandomClaimCode(length: number = 2) {
+export function generateRandomClaimCode(length: number = 4) {
   if (length < 1) throw new Error('length must be greater than 0');
   if (length > 24) throw new Error('length must be less than 24');
 
@@ -15,23 +15,27 @@ export function generateRandomClaimCode(length: number = 2) {
 }
 
 export default function generateClaimCodes(
-  count: number,
+  numberOfCodes: number,
+  codeWordLength: number = 4,
   claimCodes: ClaimCodeT[] = []
 ): ClaimCodeT[] {
   let codes: string[] = [];
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < numberOfCodes; i++) {
     let pass = false;
     while (pass == false) {
-      let code: string = generateRandomClaimCode();
+      let code: string = generateRandomClaimCode(codeWordLength);
       if (codes.includes(code)) {
         continue;
       }
       pass = true;
     }
+  }
+  codes.forEach((code) => {
     claimCodes.push({
-      code: generateRandomClaimCode(),
+      code: code,
       used: false
     });
-  }
+  });
+
   return claimCodes;
 }
