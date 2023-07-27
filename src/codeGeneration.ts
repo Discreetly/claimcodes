@@ -1,4 +1,4 @@
-import bip39ish, { bip39 } from './bip39ish';
+import bip39ish from './bip39ish';
 import { ClaimCodeT } from './types';
 
 export function generateRandomClaimCode(length: number = 4) {
@@ -27,10 +27,12 @@ export default function generateClaimCodes(
       if (codes.includes(code)) {
         continue;
       }
+      codes.push(code);
       pass = true;
     }
   }
   codes.forEach((code) => {
+    console.log(code);
     claimCodes.push({
       code: code,
       used: false

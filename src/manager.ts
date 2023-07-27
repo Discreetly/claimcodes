@@ -50,11 +50,17 @@ export default class ClaimCodeManager {
     return { status, message, claimCodes };
   }
 
-  public generateClaimCodeSet(count: number, groupID: bigint = BigInt(0), name: string = '') {
+  public generateClaimCodeSet(
+    count: number,
+    groupID: bigint = BigInt(0),
+    name: string = '',
+    codeWordLength: number = 5
+  ) {
     const groupIDstr = groupID.toString();
     if (this.claimCodeSets[groupIDstr]) {
       this.claimCodeSets[groupIDstr].claimCodes = generateClaimCodes(
         count,
+        codeWordLength,
         this.claimCodeSets[groupIDstr].claimCodes
       );
     } else {
