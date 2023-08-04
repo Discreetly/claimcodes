@@ -32,7 +32,6 @@ export default function generateClaimCodes(
     }
   }
   codes.forEach((code) => {
-    console.log(code);
     claimCodes.push({
       code: code,
       used: false
